@@ -1,9 +1,5 @@
 syntax = "proto3";
 
-service ForceCursorRPC {
-  rpc Control(stream ForceCursorInput) returns (stream ForceCursorStatus);
-}
-
 enum ForceCursorAction {
   FORCE_CURSOR_ACTION_UNSPECIFIED = 0;
   FORCE_CURSOR_ACTION_HELLO = 1;
@@ -22,9 +18,4 @@ message ForceCursorInput {
   ForceCursorAction action = 3;
   float x = 4;
   float y = 5;
-}
-
-message ForceCursorStatus {
-  uint64 accepted_sequence = 1;
-  string message = 2;
 }

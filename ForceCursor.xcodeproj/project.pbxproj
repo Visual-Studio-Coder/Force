@@ -8,22 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		0DEB1BA446DC92FAC01110D9 /* force_cursor.proto in Resources */ = {isa = PBXBuildFile; fileRef = 347209A89D83326667EABDFB /* force_cursor.proto */; };
-		2D2946379EF20C540441610D /* grpc-swift-proto-generator-config.json in Resources */ = {isa = PBXBuildFile; fileRef = D69A0BC98DA102290C593308 /* grpc-swift-proto-generator-config.json */; };
-		316887287D206ED0967A71A9 /* WatchGRPCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5E626C7A94A7D6211E8F5 /* WatchGRPCClient.swift */; };
+		1A25DBEBCE1278194F874EEE /* swift-protobuf-config.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DFCFA68FD62059FEA0DA534 /* swift-protobuf-config.json */; };
+		2BA7B049EE579DBDD7939E0A /* MacHTTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1368D12C3B3DAFD0327AA36B /* MacHTTPServer.swift */; };
 		34BA710AD39AD49C481D30BC /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A7E36CEE2C2BD637BD025 /* WatchContentView.swift */; };
 		46729EA24631144F4EE4FC61 /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483B617D9CFCAC0207886C1 /* MacContentView.swift */; };
-		4AC4960B7F13F7A771657E7D /* MacGRPCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA129CC0B97876244368B768 /* MacGRPCServer.swift */; };
 		6426DF78F93519C4706F44F5 /* WatchAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF9D33F039205C111CE7236 /* WatchAppModel.swift */; };
-		743654AF719BBE6B90EA8ECA /* GRPCProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = 7083433B3A756B6ACEFEC5F1 /* GRPCProtobuf */; };
-		77C9DB637D1C91FF78D5D628 /* GRPCProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = BDC47732E31F80A3FB89BA21 /* GRPCProtobuf */; };
+		743654AF719BBE6B90EA8ECA /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = 635DEA3F3E860B39EBE9A894 /* SwiftProtobuf */; };
+		77C9DB637D1C91FF78D5D628 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = 92EAFC1B817C6D0ADF518FB8 /* SwiftProtobuf */; };
 		7DA4891B4CC99A2EA0971F42 /* ForceCursor.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6EE3C9EBEEFBEBF327D84214 /* ForceCursor.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		80A57CC9914B352E6DFDD577 /* GRPCNIOTransportHTTP2TransportServices in Frameworks */ = {isa = PBXBuildFile; productRef = 7B33380F481B81F534937933 /* GRPCNIOTransportHTTP2TransportServices */; };
-		84BB9AD01E839F25EF4D9B5C /* GRPCNIOTransportHTTP2TransportServices in Frameworks */ = {isa = PBXBuildFile; productRef = 13C7C23A9497ED5D2315E95E /* GRPCNIOTransportHTTP2TransportServices */; };
 		8546B5ECFA3A12064E74DD9C /* ForceCursorMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A8D58CEC55DE876B94EC18 /* ForceCursorMacApp.swift */; };
 		8DC6AA5749CC3C1316BB554F /* force_cursor.proto in Resources */ = {isa = PBXBuildFile; fileRef = 347209A89D83326667EABDFB /* force_cursor.proto */; };
 		9F1B56C4F7EC1ACB37EEA9DF /* LocalNetworkAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8630672DF73FC050E3EF2C0D /* LocalNetworkAddress.swift */; };
+		A6E1866B9CB5BFA275BAA002 /* WatchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7399501EBD9AF902ED0E3 /* WatchHTTPClient.swift */; };
+		B33C79EB5139A216950A8A4D /* swift-protobuf-config.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DFCFA68FD62059FEA0DA534 /* swift-protobuf-config.json */; };
 		BB366323D61BC775726D35E0 /* ForceCursorWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AF6913D15FF183A799FE9F /* ForceCursorWatchApp.swift */; };
-		F093090202AF14426FB66F40 /* grpc-swift-proto-generator-config.json in Resources */ = {isa = PBXBuildFile; fileRef = D69A0BC98DA102290C593308 /* grpc-swift-proto-generator-config.json */; };
 		F55A16BE6F0FD253C1DF5670 /* CursorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3049401DD7EFEC912D073 /* CursorController.swift */; };
 		F76604146291CB4DAA177640 /* MacAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C8627020167585290C838 /* MacAppModel.swift */; };
 /* End PBXBuildFile section */
@@ -53,18 +51,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1368D12C3B3DAFD0327AA36B /* MacHTTPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHTTPServer.swift; sourceTree = "<group>"; };
 		2B3C8627020167585290C838 /* MacAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppModel.swift; sourceTree = "<group>"; };
 		347209A89D83326667EABDFB /* force_cursor.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = force_cursor.proto; sourceTree = "<group>"; };
 		41AF6913D15FF183A799FE9F /* ForceCursorWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceCursorWatchApp.swift; sourceTree = "<group>"; };
+		60B7399501EBD9AF902ED0E3 /* WatchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchHTTPClient.swift; sourceTree = "<group>"; };
 		62F3049401DD7EFEC912D073 /* CursorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorController.swift; sourceTree = "<group>"; };
 		6797AEE4FB1A7336D23ECCE7 /* ForceCursor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForceCursor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DFCFA68FD62059FEA0DA534 /* swift-protobuf-config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "swift-protobuf-config.json"; sourceTree = "<group>"; };
 		6EE3C9EBEEFBEBF327D84214 /* ForceCursor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForceCursor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8630672DF73FC050E3EF2C0D /* LocalNetworkAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNetworkAddress.swift; sourceTree = "<group>"; };
 		95A8D58CEC55DE876B94EC18 /* ForceCursorMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceCursorMacApp.swift; sourceTree = "<group>"; };
-		BA129CC0B97876244368B768 /* MacGRPCServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacGRPCServer.swift; sourceTree = "<group>"; };
 		C45A7E36CEE2C2BD637BD025 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
-		D69A0BC98DA102290C593308 /* grpc-swift-proto-generator-config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "grpc-swift-proto-generator-config.json"; sourceTree = "<group>"; };
-		D7F5E626C7A94A7D6211E8F5 /* WatchGRPCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchGRPCClient.swift; sourceTree = "<group>"; };
 		EFF9D33F039205C111CE7236 /* WatchAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppModel.swift; sourceTree = "<group>"; };
 		F1C3EC4A49E2558F245A5734 /* ForceCursor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForceCursor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F483B617D9CFCAC0207886C1 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
@@ -75,8 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				743654AF719BBE6B90EA8ECA /* GRPCProtobuf in Frameworks */,
-				84BB9AD01E839F25EF4D9B5C /* GRPCNIOTransportHTTP2TransportServices in Frameworks */,
+				743654AF719BBE6B90EA8ECA /* SwiftProtobuf in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,8 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77C9DB637D1C91FF78D5D628 /* GRPCProtobuf in Frameworks */,
-				80A57CC9914B352E6DFDD577 /* GRPCNIOTransportHTTP2TransportServices in Frameworks */,
+				77C9DB637D1C91FF78D5D628 /* SwiftProtobuf in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +105,7 @@
 				8630672DF73FC050E3EF2C0D /* LocalNetworkAddress.swift */,
 				2B3C8627020167585290C838 /* MacAppModel.swift */,
 				F483B617D9CFCAC0207886C1 /* MacContentView.swift */,
-				BA129CC0B97876244368B768 /* MacGRPCServer.swift */,
+				1368D12C3B3DAFD0327AA36B /* MacHTTPServer.swift */,
 			);
 			path = ForceCursorMac;
 			sourceTree = "<group>";
@@ -139,7 +135,7 @@
 				41AF6913D15FF183A799FE9F /* ForceCursorWatchApp.swift */,
 				EFF9D33F039205C111CE7236 /* WatchAppModel.swift */,
 				C45A7E36CEE2C2BD637BD025 /* WatchContentView.swift */,
-				D7F5E626C7A94A7D6211E8F5 /* WatchGRPCClient.swift */,
+				60B7399501EBD9AF902ED0E3 /* WatchHTTPClient.swift */,
 			);
 			path = ForceCursorWatch;
 			sourceTree = "<group>";
@@ -148,7 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				347209A89D83326667EABDFB /* force_cursor.proto */,
-				D69A0BC98DA102290C593308 /* grpc-swift-proto-generator-config.json */,
+				6DFCFA68FD62059FEA0DA534 /* swift-protobuf-config.json */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -171,8 +167,7 @@
 			);
 			name = ForceCursorMac;
 			packageProductDependencies = (
-				7083433B3A756B6ACEFEC5F1 /* GRPCProtobuf */,
-				13C7C23A9497ED5D2315E95E /* GRPCNIOTransportHTTP2TransportServices */,
+				635DEA3F3E860B39EBE9A894 /* SwiftProtobuf */,
 			);
 			productName = ForceCursorMac;
 			productReference = F1C3EC4A49E2558F245A5734 /* ForceCursor.app */;
@@ -212,8 +207,7 @@
 			);
 			name = ForceCursorWatch;
 			packageProductDependencies = (
-				BDC47732E31F80A3FB89BA21 /* GRPCProtobuf */,
-				7B33380F481B81F534937933 /* GRPCNIOTransportHTTP2TransportServices */,
+				92EAFC1B817C6D0ADF518FB8 /* SwiftProtobuf */,
 			);
 			productName = ForceCursorWatch;
 			productReference = 6EE3C9EBEEFBEBF327D84214 /* ForceCursor.app */;
@@ -226,7 +220,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2700;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					23A0295BC0E9C2091191AF98 = {
 						ProvisioningStyle = Automatic;
@@ -249,8 +243,7 @@
 			mainGroup = 5CE3D74E7064C68CFBB1EDE2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				120D145EBEE485B66666D2CB /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */,
-				BFEECF1A4717350CE029B8D2 /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */,
+				D617E3C039E7F4353EB31C26 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C0BA3E71887FFB99E64815DE /* Products */;
@@ -270,7 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC6AA5749CC3C1316BB554F /* force_cursor.proto in Resources */,
-				2D2946379EF20C540441610D /* grpc-swift-proto-generator-config.json in Resources */,
+				1A25DBEBCE1278194F874EEE /* swift-protobuf-config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DEB1BA446DC92FAC01110D9 /* force_cursor.proto in Resources */,
-				F093090202AF14426FB66F40 /* grpc-swift-proto-generator-config.json in Resources */,
+				B33C79EB5139A216950A8A4D /* swift-protobuf-config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +286,7 @@
 				BB366323D61BC775726D35E0 /* ForceCursorWatchApp.swift in Sources */,
 				6426DF78F93519C4706F44F5 /* WatchAppModel.swift in Sources */,
 				34BA710AD39AD49C481D30BC /* WatchContentView.swift in Sources */,
-				316887287D206ED0967A71A9 /* WatchGRPCClient.swift in Sources */,
+				A6E1866B9CB5BFA275BAA002 /* WatchHTTPClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +306,7 @@
 				9F1B56C4F7EC1ACB37EEA9DF /* LocalNetworkAddress.swift in Sources */,
 				F76604146291CB4DAA177640 /* MacAppModel.swift in Sources */,
 				46729EA24631144F4EE4FC61 /* MacContentView.swift in Sources */,
-				4AC4960B7F13F7A771657E7D /* MacGRPCServer.swift in Sources */,
+				2BA7B049EE579DBDD7939E0A /* MacHTTPServer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,11 +315,11 @@
 /* Begin PBXTargetDependency section */
 		6286A8AE719CDEA190A3BF12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = ABBAB9A065DABDE5AF6C65F9 /* GRPCProtobufGenerator */;
+			productRef = 6E13596A6D66FB4638943A15 /* SwiftProtobufPlugin */;
 		};
 		A3468E1D088782E375F6DCEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 9F9BC9EB3FB738B6B07B2F0D /* GRPCProtobufGenerator */;
+			productRef = E96D612269078E0A3C61D4D2 /* SwiftProtobufPlugin */;
 		};
 		CD0810FF805A2E185E9B6A8A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -341,7 +334,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 8339U4P687;
 				ENABLE_APP_SANDBOX = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ForceCursor;
@@ -363,11 +356,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8339U4P687;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ForceCursor;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ForceCursor sends cursor commands to your Mac over your local network.";
-				INFOPLIST_KEY_NSMotionUsageDescription = "ForceCursor uses wrist motion to move the pointer on your Mac.";
-				INFOPLIST_KEY_WKWatchOnly = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/ForceCursorWatch-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vaibhav.forcecursor.watchkitapp;
 				PRODUCT_NAME = ForceCursor;
 				SDKROOT = watchos;
@@ -413,11 +403,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -432,7 +420,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
@@ -445,7 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 8339U4P687;
 				ENABLE_APP_SANDBOX = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ForceCursor;
@@ -498,11 +485,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -524,7 +509,6 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -557,11 +541,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8339U4P687;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ForceCursor;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ForceCursor sends cursor commands to your Mac over your local network.";
-				INFOPLIST_KEY_NSMotionUsageDescription = "ForceCursor uses wrist motion to move the pointer on your Mac.";
-				INFOPLIST_KEY_WKWatchOnly = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/ForceCursorWatch-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vaibhav.forcecursor.watchkitapp;
 				PRODUCT_NAME = ForceCursor;
 				SDKROOT = watchos;
@@ -633,54 +614,36 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		120D145EBEE485B66666D2CB /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */ = {
+		D617E3C039E7F4353EB31C26 /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/grpc/grpc-swift-nio-transport.git";
+			repositoryURL = "https://github.com/apple/swift-protobuf.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.9.0;
-			};
-		};
-		BFEECF1A4717350CE029B8D2 /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/grpc/grpc-swift-protobuf.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.1;
+				minimumVersion = 1.38.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		13C7C23A9497ED5D2315E95E /* GRPCNIOTransportHTTP2TransportServices */ = {
+		635DEA3F3E860B39EBE9A894 /* SwiftProtobuf */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 120D145EBEE485B66666D2CB /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */;
-			productName = GRPCNIOTransportHTTP2TransportServices;
+			package = D617E3C039E7F4353EB31C26 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobuf;
 		};
-		7083433B3A756B6ACEFEC5F1 /* GRPCProtobuf */ = {
+		6E13596A6D66FB4638943A15 /* SwiftProtobufPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFEECF1A4717350CE029B8D2 /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */;
-			productName = GRPCProtobuf;
+			package = D617E3C039E7F4353EB31C26 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = "plugin:SwiftProtobufPlugin";
 		};
-		7B33380F481B81F534937933 /* GRPCNIOTransportHTTP2TransportServices */ = {
+		92EAFC1B817C6D0ADF518FB8 /* SwiftProtobuf */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 120D145EBEE485B66666D2CB /* XCRemoteSwiftPackageReference "grpc-swift-nio-transport" */;
-			productName = GRPCNIOTransportHTTP2TransportServices;
+			package = D617E3C039E7F4353EB31C26 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobuf;
 		};
-		9F9BC9EB3FB738B6B07B2F0D /* GRPCProtobufGenerator */ = {
+		E96D612269078E0A3C61D4D2 /* SwiftProtobufPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFEECF1A4717350CE029B8D2 /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */;
-			productName = "plugin:GRPCProtobufGenerator";
-		};
-		ABBAB9A065DABDE5AF6C65F9 /* GRPCProtobufGenerator */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFEECF1A4717350CE029B8D2 /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */;
-			productName = "plugin:GRPCProtobufGenerator";
-		};
-		BDC47732E31F80A3FB89BA21 /* GRPCProtobuf */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFEECF1A4717350CE029B8D2 /* XCRemoteSwiftPackageReference "grpc-swift-protobuf" */;
-			productName = GRPCProtobuf;
+			package = D617E3C039E7F4353EB31C26 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = "plugin:SwiftProtobufPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

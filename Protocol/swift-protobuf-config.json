@@ -1,0 +1,9 @@
+{
+  "invocations": [
+    {
+      "protoFiles": [
+        "force_cursor.proto"
+      ]
+    }
+  ]
+}

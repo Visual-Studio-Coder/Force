@@ -1,34 +1,36 @@
 # ForceCursor
 
-ForceCursor is a macOS and watchOS prototype that turns an Apple Watch into a short-session air mouse. Wrist rotation produces relative pointer movement and explicit Watch controls produce clicks.
+ForceCursor is a macOS and watchOS prototype that turns an Apple Watch into a short-session air mouse. Wrist rotation produces relative pointer movement, and explicit Watch controls produce clicks.
 
-This version uses Swift gRPC over the local network. There is no Bluetooth LE code or Bluetooth permission in either target.
+The physical Watch uses high-level `URLSession` HTTP requests. It does not use gRPC, Network.framework, Bluetooth LE, or a manually managed Bluetooth connection. This transport is compatible with the networking policy enforced on physical Apple Watch hardware.
 
-The custom single-tap classifier comes after transport and motion have been proven on a physical Watch. The temporary click buttons exercise the exact `leftClick()` and `rightClick()` command path that a gesture detector will call later.
+The custom single-tap classifier comes after transport and motion have been proven. The temporary click buttons exercise the exact `leftClick()` and `rightClick()` command path that a gesture detector will call later.
 
 ## Architecture
 
 ```text
-Apple Watch                                      Mac
-Core Motion                                      gRPC server on TCP 8787
-gesture and motion intent   == gRPC/HTTP2 ==>    ordered command handler
-one bidirectional stream                         CGEvent cursor control
+Apple Watch                                     Mac
+Core Motion                                     HTTP server on TCP 8787
+motion and button intent  == URLSession ==>     ordered command handler
+protobuf request bodies                         CGEvent cursor control
 ```
 
-The Watch determines what the wrist did. It sends `motion`, `leftClick`, `rightClick`, `mouseDown`, `mouseUp`, `scroll`, and `stop` commands through one persistent ordered stream. The Mac owns the actual pointer location because another mouse, HomeRow, a display change, or macOS can move it independently.
+The Watch determines what the wrist did. It sends `motion`, `leftClick`, `rightClick`, `mouseDown`, `mouseUp`, `scroll`, and `stop` commands as serialized Protocol Buffer messages. The Mac owns the actual pointer location because another mouse, HomeRow, a display change, or macOS can move it independently.
 
-The Protocol Buffer contract is in `Protocol/force_cursor.proto`. Xcode's `GRPCProtobufGenerator` build tool plugin generates the Swift client, server, and message types when either target builds.
+Motion is sampled at 50 Hz and transmitted at no more than about 30 Hz. Gyroscope velocity is integrated using the actual sample interval, a small dead zone removes drift, and nonlinear acceleration lets fast wrist turns cross a large display without making slow aiming overly sensitive. Displacement is accumulated while an HTTP request is in flight, so coalescing does not lose travel. The Mac eases each received displacement across 60 Hz cursor updates. Button commands preserve their order and are not discarded.
+
+The Protocol Buffer contract is in `Protocol/force_cursor.proto`. Xcode's `SwiftProtobufPlugin` build tool plugin generates the Swift message types when either target builds.
 
 ## Requirements
 
 - Xcode 27 beta with the macOS 27 and watchOS 27 SDKs
 - macOS 15 or newer
 - watchOS 11 or newer
-- A physical Apple Watch for the meaningful networking and motion test
+- A physical Apple Watch for meaningful networking and motion testing
 - The Mac and Watch on the same trusted local network
 - XcodeGen 2.45.4 or newer
 
-ForceCursor currently uses plaintext gRPC because this is a LAN transport spike. Do not use it on an untrusted network. Pairing, authentication, and TLS belong in the next transport milestone.
+ForceCursor currently uses plaintext HTTP because this is a LAN prototype. Do not use it on an untrusted network. Authentication and TLS belong in a later milestone.
 
 ## Generate the Xcode project
 
@@ -50,36 +52,26 @@ Regenerate after changing packages, targets, build settings, capabilities, or ad
    sudo xcode-select --switch /Applications/Xcode-beta.app/Contents/Developer
    ```
 
-   Or keep the system setting unchanged and prefix commands:
-
-   ```sh
-   DEVELOPER_DIR=/Applications/Xcode-beta.app/Contents/Developer xcodebuild -version
-   ```
+   Or prefix commands with `DEVELOPER_DIR=/Applications/Xcode-beta.app/Contents/Developer`.
 
 4. Run `xcodegen generate`, then open `ForceCursor.xcodeproj`.
-5. Wait for Xcode to resolve the two package dependencies.
-6. If Xcode asks whether to trust and enable `GRPCProtobufGenerator`, approve it. It is supplied by the official `grpc/grpc-swift-protobuf` package.
-7. Select the blue `ForceCursor` project icon in the navigator.
-8. Under **Targets**, select `ForceCursorMac`, open **Signing & Capabilities**, enable **Automatically manage signing**, and choose your Apple Developer team.
-9. Repeat that signing step for `ForceCursorWatchContainer` and `ForceCursorWatch`. The container is the non-executable iOS packaging stub required by a Watch-only app. It does not install an app on your iPhone.
-10. If a bundle identifier is unavailable, change it under the target's **Signing & Capabilities** tab and make the same change in `project.yml` so regeneration keeps it. Keep the Watch identifier beneath the container identifier, such as `com.yourname.forcecursor.watchkitapp` beneath `com.yourname.forcecursor`.
+5. Wait for Xcode to resolve the Swift Protobuf package.
+6. If Xcode asks whether to trust and enable `SwiftProtobufPlugin`, approve it. It is supplied by Apple's `swift-protobuf` package.
+7. Select `ForceCursorMac`, open **Signing & Capabilities**, and choose your Apple Developer team.
+8. Repeat that signing step for `ForceCursorWatchContainer` and `ForceCursorWatch`. The container is the iOS packaging stub for the Watch app.
+9. If a bundle identifier is unavailable, change it in Xcode and make the same change in `project.yml` so regeneration keeps it.
 
 Free personal-team signing is enough for your own devices, although its provisioning expires periodically.
 
 ## Connect a physical Apple Watch to Xcode
 
-1. Pair the Watch normally with your iPhone and keep Bluetooth and Wi-Fi enabled on both devices. This pairing is only for Xcode device management, not ForceCursor's transport.
-2. Connect the paired iPhone to the Mac with a cable. Unlock the iPhone and tap **Trust** if it asks whether to trust the Mac.
-3. In Xcode, open **Window > Devices and Simulators**. In Xcode 27 this may open Device Hub.
-4. Select the iPhone in the device list. Its paired Apple Watch should appear with it. Keep the iPhone and Watch unlocked while Xcode prepares developer support.
-5. If Xcode asks for Developer Mode, open **Settings > Privacy & Security > Developer Mode** on both the iPhone and Apple Watch. Turn it on, allow the restart, then confirm Developer Mode after each device restarts.
-6. Return to Xcode and wait until neither device says **Preparing**, **Connecting**, or **Developer Mode disabled**.
-7. At the top of Xcode's main window, click the scheme menu and select `ForceCursorWatch`.
-8. Click the destination immediately to the right of the scheme name. Under physical devices, select your Apple Watch, which may be displayed as the Watch name followed by **via** your iPhone.
-9. Press **Command-R**. The first signed build can take several minutes because Xcode registers the Watch and creates provisioning profiles. If Xcode shows a **Register Device** button, click it.
-10. Leave the Watch unlocked and on its charger until Xcode reports that the app launched.
-
-If the Watch does not appear in the destination menu, do not choose **Any watchOS Device**. That destination only builds and cannot install. Verify that Xcode, iOS, and watchOS are compatible versions, reconnect the iPhone by cable, reopen Device Hub, and wait for device preparation to finish.
+1. Pair the Watch normally with your iPhone.
+2. Connect the paired iPhone to the Mac by cable for initial setup.
+3. Enable Developer Mode on the iPhone and Watch when Xcode requests it.
+4. In Xcode, open **Window > Devices and Simulators**.
+5. Select the iPhone and wait for its paired Watch to appear.
+6. Accept trust prompts and keep the iPhone and Watch unlocked while Xcode prepares developer support.
+7. Confirm that the Watch appears as a run destination for the `ForceCursorWatch` scheme.
 
 ## Run the Mac server
 
@@ -91,7 +83,7 @@ If the Watch does not appear in the destination menu, do not choose **Any watchO
 6. Return to ForceCursor and click **Move right 80 px**. The pointer should move.
 7. Copy the `Mac address` shown in the app, such as `192.168.1.42:8787`. Enter only the IP portion on the Watch.
 
-If the Mac has multiple active network interfaces, the displayed address may not be the one used by the Watch. In that case, use the IPv4 address for the Wi-Fi interface shown under **System Settings > Network > Wi-Fi > Details > TCP/IP**.
+If the Mac has multiple active network interfaces, use the IPv4 address for the Wi-Fi interface shown under **System Settings > Network > Wi-Fi > Details > TCP/IP**.
 
 ## Run the Watch client
 
@@ -100,37 +92,29 @@ If the Mac has multiple active network interfaces, the displayed address may not
 3. Press **Run** and wait for installation.
 4. Grant Motion and Local Network permission if prompted.
 5. Enter the Mac's IPv4 address in the Watch app. Do not include `:8787`.
-6. Tap **Connect**. The Watch should show **Connected to Mac**, and the Mac should show **Apple Watch connected**.
+6. Tap **Connect**. The Watch performs `GET /health` and should show **Connected to Mac**.
 7. Tap **Start Cursor**, then rotate your wrist gently.
 8. Use the temporary buttons to test left and right click.
 9. Tap **Stop Cursor** before leaving the app.
 
-There is no Bluetooth pairing step. Reconnecting means opening the apps and tapping **Connect** after the Mac server is ready.
+There is no Bluetooth pairing step beyond the normal Apple Watch and iPhone pairing. Reconnecting means opening both ForceCursor apps and tapping **Connect** after the Mac server is ready.
 
-## Important watchOS transport test
+## HTTP endpoints
 
-Apple documents restrictions around low-level networking from watchOS apps, while the Swift gRPC packages declare watchOS support and WWDC26 demonstrates the new Swift gRPC stack. A simulator can also permit networking that a physical Watch refuses. For that reason, the first real milestone is simple: verify that this client can establish its HTTP/2 connection on an actual Watch.
+- `GET /health` returns HTTP 200 when the Mac server is ready.
+- `POST /control` accepts one serialized `ForceCursorInput` and returns HTTP 204.
+- The server keeps HTTP connections alive so `URLSession` can reuse the connection.
+- The Watch sets its maximum connection count to one, preserving request order.
 
-If the physical Watch fails while the simulator succeeds, collect the exact error shown by the Watch and Xcode console. Do not spend time tuning motion until that transport result is understood. A fallback transport can then be chosen from evidence, but this repository currently remains gRPC-only.
+## Current limitations
 
-## Current behavior
-
-- Motion uses processed device-motion rotation rate at 50 Hz.
-- The Watch sends relative motion intent, not absolute screen coordinates.
-- All motion and button commands use one persistent bidirectional gRPC stream, preserving command order.
-- Clicks are separate functions in `WatchAppModel`; a gesture recognizer can call the same functions later.
-- The first version uses a manually entered Mac IP address. Discovery is intentionally deferred.
-- Axis direction, dead zone, acceleration, and sensitivity need physical-device tuning.
-- There is no application-level pairing, authentication, or TLS yet.
+- Plaintext HTTP has no authentication or encryption.
+- The first version uses a manually entered Mac IP address.
+- Cursor axes, dead zone, acceleration, and sensitivity need physical-device tuning.
+- `URLSession` latency on watchOS can vary with the Watch's current network route.
+- There is no automatic reconnection yet.
 
 ## Command-line checks
-
-List schemes:
-
-```sh
-DEVELOPER_DIR=/Applications/Xcode-beta.app/Contents/Developer \
-  xcodebuild -project ForceCursor.xcodeproj -list
-```
 
 Build the Mac target without signing:
 
@@ -154,9 +138,9 @@ DEVELOPER_DIR=/Applications/Xcode-beta.app/Contents/Developer \
 
 ## Next milestones
 
-1. Prove gRPC on a physical Watch and record connection latency and failures.
-2. Tune wrist axes, dead zone, acceleration, and motion coalescing on hardware.
-3. Add authenticated pairing and TLS.
-4. Record labeled tap and non-tap IMU windows.
-5. Implement a conservative personal tap detector, then replace it with an on-device model if data justifies it.
-6. Add Digital Crown scrolling and tap-and-hold dragging.
+1. Measure HTTP request latency and loss on a physical Watch.
+2. Tune wrist axes, dead zone, acceleration, and motion coalescing.
+3. Add automatic reconnection and clearer network diagnostics.
+4. Add authenticated pairing and TLS.
+5. Record labeled tap and non-tap IMU windows.
+6. Implement a conservative personal tap detector.

@@ -5,7 +5,7 @@ import Observation
 @MainActor
 @Observable
 final class MacAppModel {
-    private(set) var serverState = "Starting gRPC server…"
+    private(set) var serverState = "Starting HTTP server…"
     private(set) var isServerListening = false
     private(set) var isWatchConnected = false
     private(set) var lastInputDescription = "No input received"
@@ -14,10 +14,10 @@ final class MacAppModel {
     let localAddress = LocalNetworkAddress.preferredIPv4() ?? ProcessInfo.processInfo.hostName
 
     private let cursorController = CursorController()
-    private var grpcServer: MacGRPCServer!
+    private var httpServer: MacHTTPServer!
 
     init() {
-        grpcServer = MacGRPCServer(port: port) { [weak self] input in
+        httpServer = MacHTTPServer(port: port) { [weak self] input in
             Task { @MainActor [weak self] in
                 self?.handle(input)
             }
@@ -28,7 +28,7 @@ final class MacAppModel {
                 self?.isWatchConnected = state.isConnected
             }
         }
-        grpcServer.start()
+        httpServer.start()
     }
 
     var connectionSummary: String {

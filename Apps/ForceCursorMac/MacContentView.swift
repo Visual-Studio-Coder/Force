@@ -56,7 +56,7 @@ struct MacContentView: View {
             GroupBox("3. Connect the Watch") {
                 VStack(alignment: .leading, spacing: 8) {
                     LabeledContent("Mac address", value: "\(model.localAddress):\(model.port)")
-                    LabeledContent("gRPC server", value: model.serverState)
+                    LabeledContent("HTTP server", value: model.serverState)
                     LabeledContent("Latest event", value: model.lastInputDescription)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

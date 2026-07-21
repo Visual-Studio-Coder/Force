@@ -17,12 +17,9 @@ settings:
     MARKETING_VERSION: 0.1.0
 
 packages:
-  GRPCProtobuf:
-    url: https://github.com/grpc/grpc-swift-protobuf.git
-    from: 2.4.1
-  GRPCNIOTransport:
-    url: https://github.com/grpc/grpc-swift-nio-transport.git
-    from: 2.9.0
+  SwiftProtobuf:
+    url: https://github.com/apple/swift-protobuf.git
+    from: 1.38.1
 
 targets:
   ForceCursorWatchContainer:
@@ -47,13 +44,11 @@ targets:
       - path: Apps/ForceCursorMac
       - path: Protocol
     dependencies:
-      - package: GRPCProtobuf
-        product: GRPCProtobuf
-      - package: GRPCNIOTransport
-        product: GRPCNIOTransportHTTP2TransportServices
+      - package: SwiftProtobuf
+        product: SwiftProtobuf
     buildToolPlugins:
-      - plugin: GRPCProtobufGenerator
-        package: GRPCProtobuf
+      - plugin: SwiftProtobufPlugin
+        package: SwiftProtobuf
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.vaibhav.forcecursor.mac
@@ -74,22 +69,17 @@ targets:
       - path: Apps/ForceCursorWatch
       - path: Protocol
     dependencies:
-      - package: GRPCProtobuf
-        product: GRPCProtobuf
-      - package: GRPCNIOTransport
-        product: GRPCNIOTransportHTTP2TransportServices
+      - package: SwiftProtobuf
+        product: SwiftProtobuf
     buildToolPlugins:
-      - plugin: GRPCProtobufGenerator
-        package: GRPCProtobuf
+      - plugin: SwiftProtobufPlugin
+        package: SwiftProtobuf
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.vaibhav.forcecursor.watchkitapp
         PRODUCT_NAME: ForceCursor
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: ForceCursor
-        INFOPLIST_KEY_NSLocalNetworkUsageDescription: ForceCursor sends cursor commands to your Mac over your local network.
-        INFOPLIST_KEY_NSMotionUsageDescription: ForceCursor uses wrist motion to move the pointer on your Mac.
-        INFOPLIST_KEY_WKWatchOnly: YES
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Config/ForceCursorWatch-Info.plist
         WATCHOS_DEPLOYMENT_TARGET: "11.0"
         SKIP_INSTALL: YES
 

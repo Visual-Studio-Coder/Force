@@ -18,19 +18,13 @@ final class WatchAppModel {
     private static let hostDefaultsKey = "ForceCursor.macHost"
     private let port = 8_787
     private let motionManager = CMMotionManager()
-    private let motionQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.name = "ForceCursor.Motion"
-        queue.maxConcurrentOperationCount = 1
-        queue.qualityOfService = .userInteractive
-        return queue
-    }()
-    private var grpcClient: WatchGRPCClient!
+    private var httpClient: WatchHTTPClient!
     private var sequence: UInt64 = 0
+    private var lastMotionTimestamp: TimeInterval?
 
     init() {
         host = UserDefaults.standard.string(forKey: Self.hostDefaultsKey) ?? ""
-        grpcClient = WatchGRPCClient { [weak self] state in
+        httpClient = WatchHTTPClient { [weak self] state in
             Task { @MainActor [weak self] in
                 self?.connectionState = state.summary
                 self?.isConnected = state.isConnected
@@ -44,7 +38,7 @@ final class WatchAppModel {
 
     func toggleConnection() {
         if isConnected || isConnecting {
-            grpcClient.disconnect()
+            httpClient.disconnect()
             return
         }
 
@@ -55,7 +49,7 @@ final class WatchAppModel {
         }
 
         host = address
-        grpcClient.connect(host: address, port: port)
+        httpClient.connect(host: address, port: port)
     }
 
     func toggleCursor() {
@@ -74,6 +68,7 @@ final class WatchAppModel {
         guard isCursorActive else { return }
         isCursorActive = false
         motionManager.stopDeviceMotionUpdates()
+        lastMotionTimestamp = nil
         send(action: .stop)
         lastMotion = "Idle"
     }
@@ -85,21 +80,38 @@ final class WatchAppModel {
         }
 
         isCursorActive = true
+        lastMotionTimestamp = nil
         motionManager.deviceMotionUpdateInterval = 1.0 / 50.0
 
-        motionManager.startDeviceMotionUpdates(to: motionQueue) { [weak self] motion, error in
-            guard let self, let motion, error == nil else { return }
+        motionManager.startDeviceMotionUpdates(to: .main) { [weak self] motion, error in
+            guard let self, let motion, error == nil, self.isCursorActive else { return }
 
-            Task { @MainActor [weak self] in
-                guard let self, self.isCursorActive else { return }
-
-                // Rotation rate is relative motion intent. It returns to zero when the wrist stops.
-                let dx = Float(motion.rotationRate.y * self.sensitivity)
-                let dy = Float(motion.rotationRate.x * self.sensitivity)
+            let elapsed = self.elapsedTime(for: motion.timestamp)
+            let dx = self.pointerDelta(angularVelocity: motion.rotationRate.y, elapsed: elapsed)
+            let dy = self.pointerDelta(angularVelocity: motion.rotationRate.x, elapsed: elapsed)
+            if dx != 0 || dy != 0 {
                 self.send(action: .motion, x: dx, y: dy)
-                self.lastMotion = String(format: "%.1f, %.1f", dx, dy)
             }
+            self.lastMotion = String(format: "%.1f, %.1f", dx, dy)
         }
+    }
+
+    private func elapsedTime(for timestamp: TimeInterval) -> TimeInterval {
+        defer { lastMotionTimestamp = timestamp }
+        guard let lastMotionTimestamp else { return 1.0 / 50.0 }
+        return min(max(timestamp - lastMotionTimestamp, 1.0 / 120.0), 1.0 / 20.0)
+    }
+
+    private func pointerDelta(angularVelocity: Double, elapsed: TimeInterval) -> Float {
+        let deadZone = 0.06
+        let speed = abs(angularVelocity)
+        guard speed > deadZone else { return 0 }
+
+        let effectiveSpeed = speed - deadZone
+        let acceleration = 1.0 + min(effectiveSpeed * 0.8, 2.0)
+        let pixelsPerRadian = sensitivity * 100.0
+        let direction = angularVelocity.sign == .minus ? -1.0 : 1.0
+        return Float(direction * effectiveSpeed * acceleration * pixelsPerRadian * elapsed)
     }
 
     private func send(action: ForceCursorAction, x: Float = 0, y: Float = 0) {
@@ -112,6 +124,6 @@ final class WatchAppModel {
         input.action = action
         input.x = x
         input.y = y
-        grpcClient.send(input)
+        httpClient.send(input)
     }
 }
