@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+service ForceCursorRPC {
+  rpc Control(stream ForceCursorInput) returns (stream ForceCursorStatus);
+}
+
+enum ForceCursorAction {
+  FORCE_CURSOR_ACTION_UNSPECIFIED = 0;
+  FORCE_CURSOR_ACTION_HELLO = 1;
+  FORCE_CURSOR_ACTION_MOTION = 2;
+  FORCE_CURSOR_ACTION_LEFT_CLICK = 3;
+  FORCE_CURSOR_ACTION_RIGHT_CLICK = 4;
+  FORCE_CURSOR_ACTION_MOUSE_DOWN = 5;
+  FORCE_CURSOR_ACTION_MOUSE_UP = 6;
+  FORCE_CURSOR_ACTION_SCROLL = 7;
+  FORCE_CURSOR_ACTION_STOP = 8;
+}
+
+message ForceCursorInput {
+  uint64 sequence = 1;
+  uint64 timestamp_nanoseconds = 2;
+  ForceCursorAction action = 3;
+  float x = 4;
+  float y = 5;
+}
+
+message ForceCursorStatus {
+  uint64 accepted_sequence = 1;
+  string message = 2;
+}

@@ -1,0 +1,106 @@
+name: ForceCursor
+options:
+  minimumXcodeGenVersion: 2.45.4
+  bundleIdPrefix: com.vaibhav.forcecursor
+  deploymentTarget:
+    iOS: "18.0"
+    macOS: "15.0"
+    watchOS: "11.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+
+packages:
+  GRPCProtobuf:
+    url: https://github.com/grpc/grpc-swift-protobuf.git
+    from: 2.4.1
+  GRPCNIOTransport:
+    url: https://github.com/grpc/grpc-swift-nio-transport.git
+    from: 2.9.0
+
+targets:
+  ForceCursorWatchContainer:
+    type: application.watchapp2-container
+    platform: iOS
+    dependencies:
+      - target: ForceCursorWatch
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vaibhav.forcecursor
+        PRODUCT_NAME: ForceCursor
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: ForceCursor
+        INFOPLIST_KEY_UIRequiresFullScreen: YES
+        IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+        SKIP_INSTALL: NO
+
+  ForceCursorMac:
+    type: application
+    platform: macOS
+    sources:
+      - path: Apps/ForceCursorMac
+      - path: Protocol
+    dependencies:
+      - package: GRPCProtobuf
+        product: GRPCProtobuf
+      - package: GRPCNIOTransport
+        product: GRPCNIOTransportHTTP2TransportServices
+    buildToolPlugins:
+      - plugin: GRPCProtobufGenerator
+        package: GRPCProtobuf
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vaibhav.forcecursor.mac
+        PRODUCT_NAME: ForceCursor
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: ForceCursor
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: ForceCursor accepts cursor commands from your Apple Watch over your local network.
+        ENABLE_APP_SANDBOX: NO
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+    scheme:
+      gatherCoverageData: false
+
+  ForceCursorWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: Apps/ForceCursorWatch
+      - path: Protocol
+    dependencies:
+      - package: GRPCProtobuf
+        product: GRPCProtobuf
+      - package: GRPCNIOTransport
+        product: GRPCNIOTransportHTTP2TransportServices
+    buildToolPlugins:
+      - plugin: GRPCProtobufGenerator
+        package: GRPCProtobuf
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vaibhav.forcecursor.watchkitapp
+        PRODUCT_NAME: ForceCursor
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: ForceCursor
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: ForceCursor sends cursor commands to your Mac over your local network.
+        INFOPLIST_KEY_NSMotionUsageDescription: ForceCursor uses wrist motion to move the pointer on your Mac.
+        INFOPLIST_KEY_WKWatchOnly: YES
+        WATCHOS_DEPLOYMENT_TARGET: "11.0"
+        SKIP_INSTALL: YES
+
+schemes:
+  ForceCursorWatch:
+    build:
+      targets:
+        ForceCursorWatchContainer: all
+        ForceCursorWatch: all
+    run:
+      config: Debug
+      executable: ForceCursorWatch
+    archive:
+      config: Release
